@@ -1,0 +1,29 @@
+# pull from PHP image
+FROM php:7.4
+
+# set workdir path
+WORKDIR /app
+
+# install composer from composer image
+COPY --from=composer /usr/bin/composer /usr/bin/composer
+
+# install git from apt
+RUN apt-get update \
+    && apt-get upgrade -y \
+    && apt-get install git -y
+
+# install zip PHP extension and its dependencies
+RUN apt-get install -y \
+    zlib1g-dev \
+    libzip-dev \
+    unzip
+RUN docker-php-ext-install zip
+
+# bind volume
+VOLUME ["/app"]
+
+# expose port 8000
+EXPOSE 8000
+
+# serve application
+CMD ["php", "-S", "0.0.0.0:8000", "-t", "/app/public"]
