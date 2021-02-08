@@ -19,6 +19,10 @@ RUN apt-get install -y \
     unzip
 RUN docker-php-ext-install zip
 
+# install and enable PDO with MySQL
+RUN docker-php-ext-install pdo pdo_mysql \
+    && docker-php-ext-enable pdo_mysql
+
 # bind volume
 VOLUME ["/app"]
 
