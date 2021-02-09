@@ -14,6 +14,7 @@ class UserFactory extends Factory
     {
         $email = $this->faker->unique()->email;
     	return [
+    	    'full_name' => $this->faker->name(),
     	    'email' => $email,
             'password' => Hash::make($email), // stores password as email
             'document' =>
