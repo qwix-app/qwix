@@ -17,10 +17,18 @@ $router->get('/', function () use ($router) {
     return $router->app->version();
 });
 
-$router->group(['prefix' => 'users'], function () use ($router) {
+$router->group(['prefix' => 'user'], function () use ($router) {
     $router->get('/', 'UserController@index');
     $router->post('/', 'UserController@store');
     $router->get('/{userId}', 'UserController@show');
     $router->put('/{userId}', 'UserController@update');
     $router->delete('/{userId}', 'UserController@destroy');
+});
+
+$router->group(['prefix' => 'transaction'], function () use ($router) {
+    $router->get('/', 'TransactionController@index');
+    $router->post('/', 'TransactionController@store');
+    $router->get('/{transactionId}', 'TransactionController@show');
+    $router->put('/{transactionId}', 'TransactionController@update');
+    $router->delete('/{transactionId}', 'TransactionController@destroy');
 });
