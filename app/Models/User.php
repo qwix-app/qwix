@@ -21,7 +21,7 @@ class User extends Model
     ];
 
     protected $fillable = [
-        'password',
+        'full_name',
         'document',
         'balance',
         'type',
