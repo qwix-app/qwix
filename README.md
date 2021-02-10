@@ -14,7 +14,8 @@ From the Lumen docs:
 ## Requirements
 
 * [Docker](https://www.docker.com/get-started);
-* [MySQL Database](https://dev.mysql.com/downloads/) (either local or remote).
+* [MySQL Database](https://dev.mysql.com/downloads/) (either local or remote);
+    * User with CRUD credentials to supply the application with.
 
 ## Setup
 
@@ -52,7 +53,46 @@ MOCKY_NOTIFICATION_URI=b19f7b9f-9cbf-4fc6-ad22-dc30601aec04
 
 ### Running the container
 
-You can build the Docker image with the following command:
+You will probably want to generate the database structure.
+
+In order to do that, you will have to take a few extra steps just for your first run.
+
+#### First run
+
+By building the `Dockerfile.dev` image and running a container, you gain access to the [Artisan Console](https://laravel.com/docs/8.x/artisan).
+
+You can harness the power of the Artisan CLI and run migrations and generate the database structure automagically.
+
+Build the image like so:
+
+```bash
+docker build -t qwix -f Dockerfile.dev .
+```
+
+Then run the container, while binding your working directory to a volume:
+
+```bash
+# You may need to replace `pwd` with your repo's *absolute path*
+# if you're using Windows and/or Git Bash!
+docker run -it --tty --rm -p 8000:8000 --name qwix -v `pwd`:/app qwix bash
+```
+
+By now you should have gained access to the container's inner terminal, so you can run:
+
+```bash
+# The seed flag is optional, but quite convenient
+php artisan migrate --seed
+```
+
+By passing the `--seed` flag, the `users` table will have some rows generated so you can play around with them.
+
+After the migration is done, you're ready to [query the API with Postman](#api-documentation).
+
+To quit the container, just type `exit` and hit `Enter`.
+
+#### All right, now I just want to serve the API, thanks
+
+Now that your database is all set up, you can build the Docker image with the following command:
 
 ```bash
 docker build -t qwix
@@ -61,8 +101,7 @@ docker build -t qwix
 Once built, you can run a container based on the image with:
 
 ```bash
-# You may need to replace `pwd` with your repo's *absolute path*
-# if you're using Windows and/or Git Bash!
+# Please mind the `pwd` again if you're in a Windows environment!
 docker run -p 8000:8000 -v `pwd`:/app qwix 
 ```
 
