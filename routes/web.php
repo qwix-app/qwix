@@ -29,6 +29,4 @@ $router->group(['prefix' => 'transaction'], function () use ($router) {
     $router->get('/', 'TransactionController@index');
     $router->post('/', 'TransactionController@store');
     $router->get('/{transactionId}', 'TransactionController@show');
-    $router->put('/{transactionId}', 'TransactionController@update');
-    $router->delete('/{transactionId}', 'TransactionController@destroy');
 });
