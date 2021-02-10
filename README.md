@@ -13,8 +13,8 @@ From the Lumen docs:
 
 ## Requirements
 
-* [ ] [Docker](https://www.docker.com/get-started);
-* [ ] [MySQL Database](https://dev.mysql.com/downloads/) (either local or remote).
+* [Docker](https://www.docker.com/get-started);
+* [MySQL Database](https://dev.mysql.com/downloads/) (either local or remote).
 
 ## Setup
 
