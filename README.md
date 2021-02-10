@@ -6,6 +6,12 @@ From the Lumen docs:
 
 > Laravel Lumen is a stunningly fast PHP micro-framework for building web applications with expressive, elegant syntax. We believe development must be an enjoyable, creative experience to be truly fulfilling. Lumen attempts to take the pain out of development by easing common tasks used in the majority of web projects, such as routing, database abstraction, queueing, and caching.
 
+## Table of Contents
+
+* [Requirements](#Requirements)
+* [Setup](#Setup)
+* [API Documentation](#API_Documentation)
+
 ## Requirements
 
 * Docker;
@@ -62,3 +68,7 @@ docker run -p 8000:8000 -v `pwd`:/app qwix
 ```
 
 The application will be served in port `8000` and can be accessed through the URL: `http://localhost:8000`.
+
+## API Documentation
+
+Qwix's API Documentation is available in its [Postman Collection docs](https://documenter.getpostman.com/view/5002377/TW77fNTJ).
