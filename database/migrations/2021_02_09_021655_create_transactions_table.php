@@ -19,12 +19,13 @@ class CreateTransactionsTable extends Migration
             $table->id();
             $table->timestamps();
             $table->unsignedDouble('value');
-            $table->foreignIdFor(Normal::class, 'payer');
+            $table->foreignIdFor(Normal::class, 'payer_id');
             $table->unsignedDouble('payer_prev_bal_snapshot');
             $table->unsignedDouble('payer_cur_bal_snapshot');
-            $table->foreignIdFor(User::class, 'payee');
+            $table->foreignIdFor(User::class, 'payee_id');
             $table->unsignedDouble('payee_prev_bal_snapshot');
             $table->unsignedDouble('payee_cur_bal_snapshot');
+            $table->boolean('successful')->nullable();
         });
     }
 

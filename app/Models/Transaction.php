@@ -8,13 +8,13 @@ use Illuminate\Database\Eloquent\Model;
 class Transaction extends Model
 {
     use HasFactory;
-    
+
     public $fillable = [
         'value',
-        'payer',
+        'payer_id',
         'payer_prev_bal_snapshot',
         'payer_cur_bal_snapshot',
-        'payee',
+        'payee_id',
         'payee_prev_bal_snapshot',
         'payee_cur_bal_snapshot',
     ];
@@ -36,15 +36,15 @@ class Transaction extends Model
                 'max:100000',
             ],
             'payer.balance' => 'gte:value',
-            'payer' => [
+            'payer_id' => [
                 'required',
                 'exists:' . Normal::class . ',id',
-                'different:payee',
+                'different:payee_id',
             ],
-            'payee' => [
+            'payee_id' => [
                 'required',
                 'exists:' . User::class . ',id',
-                'different:payer',
+                'different:payer_id',
             ],
             'payer_prev_bal_snapshot' => 'required',
             'payer_cur_bal_snapshot' => [
@@ -64,12 +64,28 @@ class Transaction extends Model
     }
 
     public function payer()
-    { 
-        return $this->belongsTo(Normal::class, 'payer', 'id');
+    {
+        return $this->belongsTo(Normal::class, 'payer_id', 'id');
     }
 
     public function payee()
-    { 
-        return $this->belongsTo(User::class, 'payee', 'id');
+    {
+        return $this->belongsTo(User::class, 'payee_id', 'id');
+    }
+
+    public function commit()
+    {
+        $this->payer->balance = $this->payer_cur_bal_snapshot;
+        $this->payee->balance = $this->payee_cur_bal_snapshot;
+        $this->successful = true;
+        $this->push();
+    }
+
+    public function rollback()
+    {
+        $this->payer->balance = $this->payer_prev_bal_snapshot;
+        $this->payee->balance = $this->payee_prev_bal_snapshot;
+        $this->successful = false;
+        $this->push();
     }
 }

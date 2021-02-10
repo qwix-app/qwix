@@ -2,17 +2,27 @@
 
 namespace App\Http\Controllers;
 
+use App\Helpers\MockyApiHelper;
 use App\Http\Resources\TransactionResource;
 use App\Models\Normal;
 use App\Models\Transaction;
 use App\Models\User;
-use ErrorException;
+use Exception;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
 use Illuminate\Validation\ValidationException;
+use Symfony\Component\HttpKernel\Exception\UnauthorizedHttpException;
 
 class TransactionController extends Controller
 {
+    private MockyApiHelper $extApi;
+
+    public function __construct(MockyApiHelper $extApi)
+    {
+        $this->extApi = $extApi;
+    }
+
     /**
      * Display a listing of the resource.
      * 
@@ -43,30 +53,50 @@ class TransactionController extends Controller
 
             $request->merge([
                 'value' => $amount,
+                'payer_id' => $payer->id,
+                'payee_id' => $payee->id,
                 'payer_prev_bal_snapshot' => $payer->balance,
                 'payer_cur_bal_snapshot' => $payer->balance - $amount,
                 'payee_prev_bal_snapshot' => $payee->balance,
                 'payee_cur_bal_snapshot' => $payee->balance + $amount,
             ]);
 
-            $payer->fill(['balance' => $request->get('payer_cur_bal_snapshot')]);
-            $payee->fill(['balance' => $request->get('payee_cur_bal_snapshot')]);
-
             $this->validate($request, Transaction::getRules());
 
             $transaction = Transaction::create($request->all());
-            $payer->save();
-            $payee->save();
+
+            $this->extApi->authorizeTransaction(
+                $amount,
+                $payer,
+                $payee
+            );
+
+            $transaction->commit();
 
             return new TransactionResource($transaction);
-        } catch (ModelNotFoundException $ex) {
-            abort(400, "Invalid accounts provided.");
-        } catch (ValidationException $ex) {
-            abort(422, "Transfer not completed. Please make sure the transferred"
-                . " amount does not exceed the current balance in your account.");
-        } catch (\Illuminate\Database\QueryException $ex) {
-            abort(500, "Fatal internal error. Contact your account manager.");
+        } catch (Exception $ex) {
+            $transaction->rollback();
+
+            switch (get_class($ex)) {
+                case ModelNotFoundException::class:
+                    abort(400, "Invalid accounts provided.");
+                    break;
+                case UnauthorizedHttpException::class:
+                    abort(401, "Unauthorized transaction.");
+                    break;
+                case ValidationException::class:
+                    abort(422, "Please make sure the transferred amount"
+                    . " does not exceed the current balance in your account.");
+                case QueryException::class:
+                    abort(500, "Fatal internal error. Contact your account manager.");
+                    break;
+                default:
+                    abort(500, "Unexpected server error.");
+                    break;
+            }
         }
+
+        $this->extApi->nudgePayee($transaction);
 
         return new TransactionResource($transaction);
     }
