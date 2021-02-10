@@ -53,7 +53,7 @@ MOCKY_NOTIFICATION_URI=b19f7b9f-9cbf-4fc6-ad22-dc30601aec04
 
 ### Running the container
 
-You will probably want to generate the database structure.
+You most likely want to generate the database structure before doing anything else.
 
 In order to do that, you will have to take a few extra steps just for your first run.
 
