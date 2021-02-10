@@ -75,11 +75,12 @@ class TransactionController extends Controller
 
             return new TransactionResource($transaction);
         } catch (Exception $ex) {
-            $transaction->rollback();
+            if (isset($transaction))
+                $transaction->rollback();
 
             switch (get_class($ex)) {
                 case ModelNotFoundException::class:
-                    abort(400, "Invalid accounts provided.");
+                    abort(400, "No valid accounts provided.");
                     break;
                 case UnauthorizedHttpException::class:
                     abort(401, "Unauthorized transaction.");
