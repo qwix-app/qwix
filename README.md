@@ -13,8 +13,8 @@ From the Lumen docs:
 
 ## Requirements
 
-* [Docker](https://www.docker.com/get-started);
-* [MySQL Database](https://dev.mysql.com/downloads/) (either local or remote);
+* [Docker](https://www.docker.com/get-started)
+* [MySQL Database](https://dev.mysql.com/downloads/) (either local or remote)
     * User with CRUD credentials to supply the application with.
 
 ## Setup
@@ -32,7 +32,7 @@ Feel free to copy and paste the contents from the `.env.example` file.
 
 #### **[FILE]** `.env`
 
-In the following section, fill in your connection data:
+In the following section, fill in your DB connection credentials:
 
 ```bash
 DB_CONNECTION=mysql
@@ -53,7 +53,7 @@ MOCKY_NOTIFICATION_URI=b19f7b9f-9cbf-4fc6-ad22-dc30601aec04
 
 ### Running the container
 
-You most likely want to generate the database structure before doing anything else.
+You probably want to generate the database structure before doing anything else!
 
 In order to do that, you will have to take a few extra steps just for your first run.
 
@@ -80,7 +80,7 @@ docker run -it --tty --rm -p 8000:8000 --name qwix -v `pwd`:/app qwix bash
 By now you should have gained access to the container's inner terminal, so you can run:
 
 ```bash
-# The seed flag is optional, but quite convenient
+# The --seed flag is optional, but quite convenient
 php artisan migrate --seed
 ```
 
