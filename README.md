@@ -8,9 +8,8 @@ From the Lumen docs:
 
 ## Table of Contents
 
-* [Requirements](#Requirements)
-* [Setup](#Setup)
-* [API Documentation](#API_Documentation)
+| 1. [Requirements](#requirements) <br /> 2. [Setup](#setup) <br /> 3. [API Documentation](#api-documentation) |
+| :-- |
 
 ## Requirements
 
