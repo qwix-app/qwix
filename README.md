@@ -8,20 +8,20 @@ From the Lumen docs:
 
 ## Table of Contents
 
-| 1. [Requirements](#requirements) <br /> 2. [Setup](#setup) <br /> 3. [API Documentation](#api-documentation) |
+| 🔧 [Requirements](#requirements) <br /> 🔌 [Setup](#setup) <br /> 🚀 [API Documentation](#api-documentation) |
 | :-- |
 
 ## Requirements
 
-* Docker;
-* MySQL Database (either local or remote).
+* [ ] [Docker](https://www.docker.com/get-started);
+* [ ] [MySQL Database](https://dev.mysql.com/downloads/) (either local or remote).
 
 ## Setup
 
 Clone this repository into your local machine with your terminal application:
 
 ```bash
-clone https://github.com/qwix-app/qwix.git
+git clone https://github.com/qwix-app/qwix.git
 ```
 ### Environment variables
 
