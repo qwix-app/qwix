@@ -70,4 +70,4 @@ The application will be served in port `8000` and can be accessed through the UR
 
 ## API Documentation
 
-Qwix's API Documentation is available in its [Postman Collection docs](https://documenter.getpostman.com/view/5002377/TW77fNTJ).
+Qwix's API Documentation is available in its [`Postman Collection docs ↗️`](https://documenter.getpostman.com/view/5002377/TW77fNTJ).
