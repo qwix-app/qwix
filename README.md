@@ -37,7 +37,7 @@ DB_USERNAME=<YOUR_USERNAME>
 DB_PASSWORD=<YOUR_PASSWORD>
 ```
 
-Further below, include the following variables, needed for the external validation services:
+Further below, include the following variables required to integrate to the external validation services:
 
 ```bash
 MOCKY_BASE_URI=https://run.mocky.io/v3/
